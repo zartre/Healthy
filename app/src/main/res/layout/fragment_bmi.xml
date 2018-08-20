@@ -4,72 +4,77 @@
                                              xmlns:tools="http://schemas.android.com/tools"
                                              android:layout_width="match_parent"
                                              android:layout_height="match_parent">
-    <ScrollView
+    <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-        <android.support.constraint.ConstraintLayout
+            android:layout_height="match_parent"
+            android:id="@+id/bmi">
+        <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="20dp">
-
-            <EditText
+                android:layout_height="match_parent">
+            <android.support.constraint.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/ic_person"
-                    android:hint="@string/height"
-                    android:id="@+id/bmi_input_height"
-                    android:fontFamily="@font/ubuntu"
-                    android:layout_marginTop="8dp"
-                    app:layout_constraintTop_toTopOf="parent"/>
+                    android:padding="20dp">
 
-            <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/ic_person_pin"
-                    android:hint="@string/weight"
-                    android:id="@+id/bmi_input_weight"
-                    android:fontFamily="@font/ubuntu"
-                    app:layout_constraintTop_toBottomOf="@+id/bmi_input_height"
-                    android:layout_marginTop="8dp"/>
+                <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/ic_person"
+                        android:hint="@string/height"
+                        android:id="@+id/bmi_input_height"
+                        android:fontFamily="@font/ubuntu"
+                        android:layout_marginTop="8dp"
+                        app:layout_constraintTop_toTopOf="parent"/>
 
-            <Button
-                    android:text="@string/btn_calculate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@+id/bmi_input_weight"
-                    android:layout_marginTop="16dp"
-                    android:id="@+id/bmi_btn_calculate"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginEnd="8dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:layout_marginStart="8dp"
-                    android:fontFamily="@font/ubuntu"/>
+                <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/ic_person_pin"
+                        android:hint="@string/weight"
+                        android:id="@+id/bmi_input_weight"
+                        android:fontFamily="@font/ubuntu"
+                        app:layout_constraintTop_toBottomOf="@+id/bmi_input_height"
+                        android:layout_marginTop="8dp"/>
 
-            <TextView
-                    android:text="@string/your_bmi"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/bmi_txt_your_bmi"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginEnd="8dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="32dp"
-                    app:layout_constraintTop_toBottomOf="@+id/bmi_btn_calculate"
-                    android:textSize="30sp"/>
+                <Button
+                        android:text="@string/btn_calculate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@+id/bmi_input_weight"
+                        android:layout_marginTop="16dp"
+                        android:id="@+id/bmi_btn_calculate"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_marginEnd="8dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:layout_marginStart="8dp"
+                        android:fontFamily="@font/ubuntu"/>
 
-            <TextView
-                    android:text="TextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/bmi_txt_calculated_bmi"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginEnd="8dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="32dp"
-                    app:layout_constraintTop_toBottomOf="@+id/bmi_txt_your_bmi"/>
+                <TextView
+                        android:text="@string/your_bmi"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/bmi_txt_your_bmi"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_marginEnd="8dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="32dp"
+                        app:layout_constraintTop_toBottomOf="@+id/bmi_btn_calculate"
+                        android:textSize="30sp"/>
 
-        </android.support.constraint.ConstraintLayout>
-    </ScrollView>
+                <TextView
+                        android:text="TextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/bmi_txt_calculated_bmi"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_marginEnd="8dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="32dp"
+                        app:layout_constraintTop_toBottomOf="@+id/bmi_txt_your_bmi"/>
+
+            </android.support.constraint.ConstraintLayout>
+        </ScrollView>
+    </FrameLayout>
 </android.support.constraint.ConstraintLayout>

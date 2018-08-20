@@ -28,6 +28,7 @@ public class LoginFragment extends Fragment {
 
             @Override
             public void onClick(View view) {
+
                 EditText _userId = getView().findViewById(R.id.login_input_username);
                 EditText _password = getView().findViewById(R.id.login_input_password);
                 String _userIdStr = _userId.getText().toString();
@@ -36,9 +37,13 @@ public class LoginFragment extends Fragment {
                 if (_userIdStr.isEmpty() || _passwordStr.isEmpty()) {
                     Toast.makeText(getActivity(), "Missing username or password", Toast.LENGTH_SHORT)
                             .show();
-                    Log.d("USER", "Missing username or password");
+                    Log.d("LOGIN", "Missing username or password");
                 } else if (_userIdStr.equalsIgnoreCase("admin") && _passwordStr.equalsIgnoreCase("admin")) {
-                    Log.d("USER", "Go to BMI");
+                    Log.d("LOGIN", "Go to BMI");
+                    getFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.main_view, new BmiFragment())
+                            .commit();
                 }
             }
 
