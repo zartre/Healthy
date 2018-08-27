@@ -21,5 +21,6 @@ public class BmiFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         Log.d("SCREEN", "BmiFragment onActivityCreated");
         super.onActivityCreated(savedInstanceState);
+        // TODO: Add calculation logic
     }
 }

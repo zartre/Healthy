@@ -43,7 +43,7 @@ public class LoginFragment extends Fragment {
                     Log.d("LOGIN", "Go to BMI");
                     getFragmentManager()
                             .beginTransaction()
-                            .replace(R.id.main_view, new BmiFragment())
+                            .replace(R.id.main_view, new MenuFragment())
                             .commit();
                 }
             }
