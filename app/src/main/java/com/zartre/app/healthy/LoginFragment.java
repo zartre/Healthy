@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class LoginFragment extends Fragment {
@@ -47,6 +48,18 @@ public class LoginFragment extends Fragment {
                 }
             }
 
+        });
+
+        TextView _regBtn = getView().findViewById(R.id.text_register);
+        _regBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("LOGIN", "Register button clicked.");
+                getFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.main_view, new RegisterFragment())
+                        .commit();
+            }
         });
     }
 }
