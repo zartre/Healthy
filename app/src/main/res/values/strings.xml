@@ -8,9 +8,11 @@
     <string name="btn_register">Register new account</string>
     <string name="btn_add_weight">Log weight</string>
     <string name="btn_calculate">Calculate</string>
+    <string name="btn_add">Add</string>
     <string name="weight">Weight (kg)</string>
     <string name="height">Height (cm)</string>
     <string name="your_bmi">Your BMI</string>
+    <string name="date">Date</string>
     <string name="missing_usr_pwd">Missing username or password</string>
     <string name="incorrect_usr_pwd">Incorrect username or password</string>
 </resources>
