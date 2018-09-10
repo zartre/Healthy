@@ -38,12 +38,21 @@ public class MenuFragment extends Fragment {
         _menuList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Log.d("MENU", "Click on menu = " + _menu.get(i));
-                getActivity().getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.main_view, new BmiFragment())
-                        .addToBackStack(null)
-                        .commit();
+                String selectedMenu = _menu.get(i);
+                Log.d("MENU", "Click on menu = " + selectedMenu);
+                if (selectedMenu.equalsIgnoreCase("weight")) {
+                    getActivity().getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.main_view, new WeightFormFragment())
+                            .addToBackStack(null)
+                            .commit();
+                } else if (selectedMenu.equalsIgnoreCase("bmi")) {
+                    getActivity().getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.main_view, new BmiFragment())
+                            .addToBackStack(null)
+                            .commit();
+                }
             }
         });
     }

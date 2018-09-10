@@ -14,7 +14,7 @@ public class WeightFormFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        Button _addBtn = getView().findViewById(R.id.weight_btn_add);
+        Button _addBtn = getView().findViewById(R.id.weight_form_btn_add);
         _addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
