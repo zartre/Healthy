@@ -66,7 +66,20 @@ public class RegisterFragment extends Fragment {
                             .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                                 @Override
                                 public void onSuccess(AuthResult authResult) {
-                                    Toast.makeText(getActivity(), "Registered. Please go back and log in", Toast.LENGTH_SHORT).show();
+                                    authResult.getUser().sendEmailVerification()
+                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void aVoid) {
+                                                    Toast.makeText(
+                                                            getActivity(),
+                                                            "Registered. Please click the confirmation link sent to your email",
+                                                            Toast.LENGTH_SHORT).show();
+                                                    getFragmentManager()
+                                                            .beginTransaction()
+                                                            .replace(R.id.main_view, new LoginFragment())
+                                                            .commit();
+                                                }
+                                            });
                                 }
                             })
                             .addOnFailureListener(new OnFailureListener() {

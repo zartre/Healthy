@@ -8,7 +8,6 @@
     <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName"
             android:hint="@string/date"
             android:ems="10"
             android:id="@+id/weight_form_input_date"
@@ -17,12 +16,12 @@
             android:layout_marginEnd="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="20dp"/>
+            android:layout_marginTop="20dp"
+            android:inputType="date"/>
 
     <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName"
             android:hint="@string/weight"
             android:ems="10"
             android:id="@+id/weight_form_input_weight"
@@ -31,7 +30,8 @@
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="20dp"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="20dp"/>
+            android:layout_marginEnd="20dp"
+            android:inputType="numberDecimal"/>
 
     <Button
             android:text="@string/btn_add"
