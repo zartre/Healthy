@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Healthy</string>
     <string name="username">Username</string>
+    <string name="email">E-mail</string>
     <string name="password">Password</string>
     <string name="realname">Real name</string>
     <string name="age">Age</string>

@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 public class BmiFragment extends Fragment {
     @Nullable
@@ -21,6 +22,6 @@ public class BmiFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         Log.d("SCREEN", "BmiFragment onActivityCreated");
         super.onActivityCreated(savedInstanceState);
-        // TODO: Add calculation logic
+        Button _calcBtn = getView().findViewById(R.id.bmi_btn_calculate);
     }
 }
