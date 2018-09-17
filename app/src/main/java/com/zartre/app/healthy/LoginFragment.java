@@ -75,10 +75,16 @@ public class LoginFragment extends Fragment {
                 .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                     @Override
                     public void onSuccess(AuthResult authResult) {
-                        getFragmentManager()
-                                .beginTransaction()
-                                .replace(R.id.main_view, new MenuFragment())
-                                .commit();
+                        if (firebaseAuth.getCurrentUser().isEmailVerified()) {
+                            getFragmentManager()
+                                    .beginTransaction()
+                                    .replace(R.id.main_view, new MenuFragment())
+                                    .commit();
+                        } else {
+                            _loginLoading.setVisibility(View.GONE);
+                            _loginBtn.setVisibility(View.VISIBLE);
+                            Toast.makeText(getActivity(), "Please confirm your email first", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
