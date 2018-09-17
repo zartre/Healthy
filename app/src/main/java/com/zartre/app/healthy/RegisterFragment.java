@@ -19,7 +19,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class RegisterFragment extends Fragment {
 
-    FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+    private FirebaseAuth firebaseAuth;
 
     @Nullable
     @Override
@@ -34,7 +34,10 @@ public class RegisterFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         final ProgressBar _submitProgress = getView().findViewById(R.id.register_loading);
-        Button _regBtn = getView().findViewById(R.id.register_btn_register);
+        final Button _regBtn = getView().findViewById(R.id.register_btn_register);
+
+        firebaseAuth = FirebaseAuth.getInstance();
+
         _regBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -62,40 +65,54 @@ public class RegisterFragment extends Fragment {
                     _age.setEnabled(false);
                     _password.setEnabled(false);
                     _submitProgress.setVisibility(View.VISIBLE);
-                    firebaseAuth.createUserWithEmailAndPassword(_emailStr, _passwordStr)
-                            .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-                                @Override
-                                public void onSuccess(AuthResult authResult) {
-                                    authResult.getUser().sendEmailVerification()
-                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                @Override
-                                                public void onSuccess(Void aVoid) {
-                                                    Toast.makeText(
-                                                            getActivity(),
-                                                            "Registered. Please click the confirmation link sent to your email",
-                                                            Toast.LENGTH_SHORT).show();
-                                                    getFragmentManager()
-                                                            .beginTransaction()
-                                                            .replace(R.id.main_view, new LoginFragment())
-                                                            .commit();
-                                                }
-                                            });
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(getActivity(), e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-                                    _submitProgress.setVisibility(View.GONE);
-                                    _username.setEnabled(true);
-                                    _email.setEnabled(true);
-                                    _realName.setEnabled(true);
-                                    _age.setEnabled(true);
-                                    _password.setEnabled(true);
-                                }
-                            });
+                    registerUser(_emailStr, _passwordStr);
                 }
             }
         });
+    }
+
+    public void registerUser(String email, String password) {
+        firebaseAuth.createUserWithEmailAndPassword(email, password)
+                .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+
+                    @Override
+                    public void onSuccess(AuthResult authResult) {
+                        authResult.getUser().sendEmailVerification()
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Toast.makeText(
+                                                getActivity(),
+                                                "Registered. Please click the confirmation link sent to your email",
+                                                Toast.LENGTH_SHORT).show();
+                                        getFragmentManager()
+                                                .beginTransaction()
+                                                .replace(R.id.main_view, new LoginFragment())
+                                                .commit();
+                                    }
+                                });
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        final EditText _username = getView().findViewById(R.id.register_input_username);
+                        final EditText _email = getView().findViewById(R.id.register_input_email);
+                        final EditText _realName = getView().findViewById(R.id.register_input_realname);
+                        final EditText _age = getView().findViewById(R.id.register_input_age);
+                        final EditText _password = getView().findViewById(R.id.register_input_password);
+                        final ProgressBar _submitProgress = getView().findViewById(R.id.register_loading);
+
+                        Toast.makeText(getActivity(), e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                        _submitProgress.setVisibility(View.GONE);
+
+                        _username.setEnabled(true);
+                        _email.setEnabled(true);
+                        _realName.setEnabled(true);
+                        _age.setEnabled(true);
+                        _password.setEnabled(true);
+                    }
+                });
     }
 }
