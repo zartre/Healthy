@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -37,5 +38,17 @@ public class WeightFragment extends Fragment {
 
         WeightAdapter weightAdapter = new WeightAdapter(getActivity(), R.layout.fragment_weight_card, weightRecords);
         _weightList.setAdapter(weightAdapter);
+
+        Button _addWeightBtn = getView().findViewById(R.id.weight_btn_add);
+        _addWeightBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.main_view, new WeightFormFragment())
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
     }
 }

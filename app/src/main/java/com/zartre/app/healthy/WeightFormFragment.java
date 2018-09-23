@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -30,11 +31,15 @@ public class WeightFormFragment extends Fragment {
 
         final EditText _date = getView().findViewById(R.id.weight_form_input_date);
         final EditText _weight = getView().findViewById(R.id.weight_form_input_weight);
-        Button _addBtn = getView().findViewById(R.id.weight_form_btn_add);
+        final ProgressBar _loading = getView().findViewById(R.id.weight_form_loading);
+        final Button _addBtn = getView().findViewById(R.id.weight_form_btn_add);
 
         _addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                _loading.setVisibility(View.VISIBLE);
+                _addBtn.setVisibility(View.GONE);
+
                 String _dateStr = _date.getText().toString();
                 String _weightStr = _weight.getText().toString();
 
@@ -50,6 +55,8 @@ public class WeightFormFragment extends Fragment {
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
+                                _loading.setVisibility(View.GONE);
+                                _addBtn.setVisibility(View.VISIBLE);
                                 getFragmentManager()
                                         .beginTransaction()
                                         .replace(R.id.main_view, new WeightFragment())
@@ -59,6 +66,8 @@ public class WeightFormFragment extends Fragment {
                         .addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
+                                _loading.setVisibility(View.GONE);
+                                _addBtn.setVisibility(View.VISIBLE);
                                 Toast.makeText(getActivity(), e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                                 Log.d("WEIGHT", e.getMessage());
                             }
