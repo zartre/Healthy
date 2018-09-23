@@ -34,7 +34,7 @@ public class WeightFormFragment extends Fragment {
                 EditText _date = getView().findViewById(R.id.weight_form_input_date);
                 EditText _weight = getView().findViewById(R.id.weight_form_input_weight);
                 String _dateStr = _date.getText().toString();
-                String _weightStr = _date.getText().toString();
+                String _weightStr = _weight.getText().toString();
 
                 WeightRecord _record = new WeightRecord();
                 _record.setDate(_dateStr);
