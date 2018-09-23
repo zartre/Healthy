@@ -46,7 +46,7 @@ public class MenuFragment extends Fragment {
                 if (selectedMenu.equalsIgnoreCase("weight")) {
                     getActivity().getSupportFragmentManager()
                             .beginTransaction()
-                            .replace(R.id.main_view, new WeightFormFragment())
+                            .replace(R.id.main_view, new WeightFragment())
                             .addToBackStack(null)
                             .commit();
                 } else if (selectedMenu.equalsIgnoreCase("bmi")) {

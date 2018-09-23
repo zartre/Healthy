@@ -18,21 +18,23 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 public class WeightFormFragment extends Fragment {
 
-    FirebaseFirestore firestore;
-    FirebaseAuth auth;
+    private FirebaseFirestore firestore;
+    private FirebaseAuth auth;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
         firestore = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
 
+        final EditText _date = getView().findViewById(R.id.weight_form_input_date);
+        final EditText _weight = getView().findViewById(R.id.weight_form_input_weight);
         Button _addBtn = getView().findViewById(R.id.weight_form_btn_add);
+
         _addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                EditText _date = getView().findViewById(R.id.weight_form_input_date);
-                EditText _weight = getView().findViewById(R.id.weight_form_input_weight);
                 String _dateStr = _date.getText().toString();
                 String _weightStr = _weight.getText().toString();
 
@@ -50,15 +52,14 @@ public class WeightFormFragment extends Fragment {
                             public void onSuccess(Void aVoid) {
                                 getFragmentManager()
                                         .beginTransaction()
-                                        // TODO: Change WeightFormFragment to WeightFragment
-                                        .replace(R.id.main_view, new WeightFormFragment())
+                                        .replace(R.id.main_view, new WeightFragment())
                                         .commit();
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(getActivity(), "Couldn't log your weight", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getActivity(), e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                                 Log.d("WEIGHT", e.getMessage());
                             }
                         });

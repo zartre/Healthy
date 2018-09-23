@@ -8,7 +8,7 @@
     <string name="age">Age</string>
     <string name="btn_login">Log in</string>
     <string name="btn_register">Register new account</string>
-    <string name="btn_add_weight">Log weight</string>
+    <string name="btn_add_weight">Add weight</string>
     <string name="btn_calculate">Calculate</string>
     <string name="btn_add">Add</string>
     <string name="weight">Weight (kg)</string>
