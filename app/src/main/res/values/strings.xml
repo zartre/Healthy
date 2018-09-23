@@ -3,6 +3,7 @@
     <string name="username">Username</string>
     <string name="email">E-mail</string>
     <string name="password">Password</string>
+    <string name="repassword">Re-Password</string>
     <string name="realname">Real name</string>
     <string name="age">Age</string>
     <string name="btn_login">Log in</string>

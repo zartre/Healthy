@@ -18,65 +18,55 @@
                     android:padding="20dp">
 
                 <EditText
+                        android:id="@+id/register_input_email"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:drawableLeft="@drawable/ic_mail"
                         android:hint="@string/email"
-                        android:id="@+id/register_input_email"
                         android:fontFamily="@font/ubuntu"
                         android:layout_marginTop="8dp"
                         app:layout_constraintTop_toTopOf="parent"
                         android:inputType="textEmailAddress"
-                        tools:layout_editor_absoluteX="20dp"/>
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:layout_marginStart="8dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_marginEnd="8dp"/>
 
                 <EditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:drawableLeft="@drawable/ic_person"
-                        android:hint="@string/username"
-                        android:id="@+id/register_input_username"
-                        android:fontFamily="@font/ubuntu"
-                        android:layout_marginTop="8dp"
-                        app:layout_constraintTop_toBottomOf="@+id/register_input_email"/>
-
-                <EditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:drawableLeft="@drawable/ic_person_pin"
-                        android:hint="@string/realname"
-                        android:id="@+id/register_input_realname"
-                        android:fontFamily="@font/ubuntu"
-                        app:layout_constraintTop_toBottomOf="@+id/register_input_username"
-                        android:layout_marginTop="8dp"/>
-
-                <EditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:drawableLeft="@drawable/ic_calendar"
-                        android:hint="@string/age"
-                        android:id="@+id/register_input_age"
-                        android:fontFamily="@font/ubuntu"
-                        app:layout_constraintTop_toBottomOf="@+id/register_input_realname"
-                        android:layout_marginTop="8dp"
-                        android:inputType="number"
-                        tools:layout_editor_absoluteX="20dp"/>
-
-                <EditText
+                        android:id="@+id/register_input_password"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:drawableLeft="@drawable/ic_key"
                         android:hint="@string/password"
-                        android:id="@+id/register_input_password"
                         android:fontFamily="@font/ubuntu"
-                        app:layout_constraintTop_toBottomOf="@+id/register_input_age"
+                        android:inputType="textPassword"
                         android:layout_marginTop="8dp"
-                        tools:layout_editor_absoluteX="20dp"
-                        android:inputType="textPassword"/>
+                        app:layout_constraintTop_toBottomOf="@+id/register_input_email"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:layout_marginStart="8dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_marginEnd="8dp"/>
+
+                <EditText
+                        android:id="@+id/register_input_repassword"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/ic_key"
+                        android:hint="@string/repassword"
+                        android:fontFamily="@font/ubuntu"
+                        android:inputType="textPassword"
+                        android:layout_marginTop="8dp"
+                        app:layout_constraintTop_toBottomOf="@+id/register_input_password"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:layout_marginStart="8dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_marginEnd="8dp"/>
+
                 <Button
                         android:text="@string/btn_register"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:layout_constraintTop_toBottomOf="@+id/register_input_password"
+                        app:layout_constraintTop_toBottomOf="@+id/register_input_repassword"
                         android:layout_marginTop="16dp"
                         android:id="@+id/register_btn_register"
                         app:layout_constraintEnd_toEndOf="parent"
