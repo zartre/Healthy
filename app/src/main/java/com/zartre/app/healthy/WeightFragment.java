@@ -30,7 +30,7 @@ public class WeightFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
+        weightRecords.clear();
         final ListView _weightList = getView().findViewById(R.id.weight_list);
 
         firestore = FirebaseFirestore.getInstance();
