@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "255070484754",
+    "firebase_url": "https://healthy-92654.firebaseio.com",
+    "project_id": "healthy-92654",
+    "storage_bucket": "healthy-92654.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:255070484754:android:8c92b0228e506f7a",
+        "android_client_info": {
+          "package_name": "com.zartre.app.healthy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "255070484754-sc946qrpgofkfhb517srp90d90rf1csm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyACZoGYbildXKPI91Xn3T3UUo3dh--L-hM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
