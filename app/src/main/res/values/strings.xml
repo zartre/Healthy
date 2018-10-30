@@ -11,6 +11,7 @@
     <string name="btn_add_weight">Add weight</string>
     <string name="btn_calculate">Calculate</string>
     <string name="btn_add">Add</string>
+    <string name="btn_add_sleep">Add sleep</string>
     <string name="weight">Weight (kg)</string>
     <string name="height">Height (cm)</string>
     <string name="your_bmi">Your BMI</string>

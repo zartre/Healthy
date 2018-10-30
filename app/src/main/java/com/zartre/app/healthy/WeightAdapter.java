@@ -14,7 +14,7 @@ import java.util.List;
 
 public class WeightAdapter extends ArrayAdapter<WeightRecord> {
 
-    List<WeightRecord> weightRecordList = new ArrayList<WeightRecord>();
+    List<WeightRecord> weightRecordList = new ArrayList<>();
     Context context;
 
     public WeightAdapter(Context context, int resource, List<WeightRecord> weights) {
