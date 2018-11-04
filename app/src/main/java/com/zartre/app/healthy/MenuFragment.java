@@ -67,7 +67,8 @@ public class MenuFragment extends Fragment {
                     Log.d("MENU", "Chosen " + selectedMenu);
                     getActivity().getSupportFragmentManager()
                             .beginTransaction()
-                            .replace(R.id.main_view, new SleepFormFragment())
+                            .replace(R.id.main_view, new SleepFragment())
+                            .addToBackStack(null)
                             .commit();
                 }
             }
