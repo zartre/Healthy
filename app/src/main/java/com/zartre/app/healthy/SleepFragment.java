@@ -10,9 +10,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ListView;
+
+import java.util.ArrayList;
 
 public class SleepFragment extends Fragment {
     private SleepDB db;
+    private ArrayList<SleepRecord> sleepRecords = new ArrayList<>();
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -26,11 +31,16 @@ public class SleepFragment extends Fragment {
         Log.d("SLEEP", "Enter Sleep");
 
         db = new SleepDB(getContext());
-        Cursor sleepRecords = db.getRecords();
-        while (sleepRecords.moveToNext()) {
-            String something = sleepRecords.getString(0);
+        Cursor records = db.getRecords();
+        while (records.moveToNext()) {
+            SleepRecord s = new SleepRecord(records.getString(0), records.getString(1), records.getString(2));
+            sleepRecords.add(s);
         }
-        sleepRecords.close();
+        records.close();
+
+        final ListView sleepList = getView().findViewById(R.id.sleep_list);
+        SleepAdapter sleepAdapter = new SleepAdapter(getActivity(), R.layout.fragment_sleep_card, sleepRecords);
+        sleepList.setAdapter(sleepAdapter);
 
         final Button addSleepBtn = getView().findViewById(R.id.sleep_btn_add);
         addSleepBtn.setOnClickListener(new View.OnClickListener() {
