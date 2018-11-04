@@ -10,12 +10,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 public class SleepFormFragment extends Fragment {
     private EditText _date;
     private EditText _sleepStart;
     private EditText _sleepEnd;
     private Button addBtn;
+    private TextView title;
     private SleepDB db;
 
     @Nullable
@@ -36,6 +38,7 @@ public class SleepFormFragment extends Fragment {
         _sleepStart = getView().findViewById(R.id.sleep_form_input_sleep_start);
         _sleepEnd = getView().findViewById(R.id.sleep_form_input_sleep_end);
         addBtn = getView().findViewById(R.id.sleep_form_btn_add);
+        title = getView().findViewById(R.id.sleep_form_title);
 
         if (sleepBundle != null) {
             String oldDate = sleepBundle.getString("date");
@@ -44,6 +47,8 @@ public class SleepFormFragment extends Fragment {
             _date.setText(oldDate);
             _sleepStart.setText(oldSleepStart);
             _sleepEnd.setText(oldSleepEnd);
+            addBtn.setText("Update");
+            title.setText("Update sleep time");
         }
 
         addBtn.setOnClickListener(new View.OnClickListener() {
