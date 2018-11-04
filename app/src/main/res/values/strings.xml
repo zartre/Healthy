@@ -16,6 +16,8 @@
     <string name="height">Height (cm)</string>
     <string name="your_bmi">Your BMI</string>
     <string name="date">Date</string>
+    <string name="sleep_start">Sleep time</string>
+    <string name="sleep_end">Wake up time</string>
     <string name="missing_usr_pwd">Missing username or password</string>
     <string name="incorrect_usr_pwd">Incorrect username or password</string>
 </resources>
