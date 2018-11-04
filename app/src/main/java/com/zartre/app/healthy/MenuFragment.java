@@ -26,6 +26,7 @@ public class MenuFragment extends Fragment {
         _menu.clear();
         _menu.add("BMI");
         _menu.add("Weight");
+        _menu.add("Sleep");
         _menu.add("Setup");
         _menu.add("Sign Out");
 
@@ -61,6 +62,12 @@ public class MenuFragment extends Fragment {
                     getActivity().getSupportFragmentManager()
                             .beginTransaction()
                             .replace(R.id.main_view, new LoginFragment())
+                            .commit();
+                } else if (selectedMenu.equalsIgnoreCase("sleep")) {
+                    Log.d("MENU", "Chosen " + selectedMenu);
+                    getActivity().getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.main_view, new SleepFormFragment())
                             .commit();
                 }
             }
