@@ -4,7 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-public class DBHelper extends SQLiteOpenHelper {
+public class SleepDBHelper extends SQLiteOpenHelper {
     static final String DB_NAME = "healthy.db";
     static final int DB_VERSION = 1;
     static final String TABLE_NAME = "sleep";
@@ -18,7 +18,7 @@ public class DBHelper extends SQLiteOpenHelper {
             COL_SLEEP_START + "TEXT NOT NULL, " +
             COL_SLEEP_END + "TEXT NOT NULL);";
 
-    public DBHelper(Context context) {
+    public SleepDBHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
     }
 
@@ -28,7 +28,7 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int i, int i1) {
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
         onCreate(db);
     }
