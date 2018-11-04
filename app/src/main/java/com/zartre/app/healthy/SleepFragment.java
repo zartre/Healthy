@@ -29,7 +29,6 @@ public class SleepFragment extends Fragment {
         Cursor sleepRecords = db.getRecords();
         while (sleepRecords.moveToNext()) {
             String something = sleepRecords.getString(0);
-            Log.d("SLEEP", something);
         }
         sleepRecords.close();
 

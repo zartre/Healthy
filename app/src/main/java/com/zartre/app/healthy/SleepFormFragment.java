@@ -45,6 +45,10 @@ public class SleepFormFragment extends Fragment {
                 Log.d("SLEEPFORM", "Inserting " + date + " " + sleepStart + " " + sleepEnd);
                 db.createRecord(date, sleepStart, sleepEnd);
                 Log.d("SLEEPFORM", "Inserted");
+                getFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.main_view, new SleepFragment())
+                        .commit();
             }
         });
     }
