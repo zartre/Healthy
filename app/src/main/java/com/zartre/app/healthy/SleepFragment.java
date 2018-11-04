@@ -1,5 +1,6 @@
 package com.zartre.app.healthy;
 
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 public class SleepFragment extends Fragment {
+    private SleepDB db;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -22,6 +24,14 @@ public class SleepFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         Log.d("SLEEP", "Enter Sleep");
+
+        db = new SleepDB(getContext());
+        Cursor sleepRecords = db.getRecords();
+        while (sleepRecords.moveToNext()) {
+            String something = sleepRecords.getString(0);
+            Log.d("SLEEP", something);
+        }
+        sleepRecords.close();
 
         final Button addSleepBtn = getView().findViewById(R.id.sleep_btn_add);
         addSleepBtn.setOnClickListener(new View.OnClickListener() {
