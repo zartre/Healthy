@@ -23,7 +23,7 @@ public class SleepFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         Log.d("SLEEP", "Enter Sleep");
 
-        Button addSleepBtn = getView().findViewById(R.id.sleep_btn_add);
+        final Button addSleepBtn = getView().findViewById(R.id.sleep_btn_add);
         addSleepBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

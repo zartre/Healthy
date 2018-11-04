@@ -8,18 +8,39 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 
 public class SleepFormFragment extends Fragment {
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        Log.d("SLEEPFORM", "Enter SleepForm");
-    }
+    private EditText _date;
+    private EditText _sleepStart;
+    private EditText _sleepEnd;
+    private Button addBtn;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.d("SLEEPFORM", "SleepForm onCreateView");
         return inflater.inflate(R.layout.fragment_sleep_form, container, false);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        Log.d("SLEEPFORM", "Enter SleepForm");
+
+        _date = getView().findViewById(R.id.sleep_form_input_date);
+        _sleepStart = getView().findViewById(R.id.sleep_form_input_sleep_start);
+        _sleepEnd = getView().findViewById(R.id.sleep_form_input_sleep_end);
+        addBtn = getView().findViewById(R.id.sleep_form_btn_add);
+
+        addBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String date = _date.getText().toString();
+                String sleepStart = _sleepStart.getText().toString();
+                String sleepEnd = _sleepEnd.getText().toString();
+            }
+        });
     }
 }
