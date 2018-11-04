@@ -29,12 +29,22 @@ public class SleepFormFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         Log.d("SLEEPFORM", "Enter SleepForm");
+        Bundle sleepBundle = getArguments();
 
         db = new SleepDB(getContext());
         _date = getView().findViewById(R.id.sleep_form_input_date);
         _sleepStart = getView().findViewById(R.id.sleep_form_input_sleep_start);
         _sleepEnd = getView().findViewById(R.id.sleep_form_input_sleep_end);
         addBtn = getView().findViewById(R.id.sleep_form_btn_add);
+
+        if (sleepBundle != null) {
+            String oldDate = sleepBundle.getString("date");
+            String oldSleepStart = sleepBundle.getString("sleepStart");
+            String oldSleepEnd = sleepBundle.getString("sleepEnd");
+            _date.setText(oldDate);
+            _sleepStart.setText(oldSleepStart);
+            _sleepEnd.setText(oldSleepEnd);
+        }
 
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override

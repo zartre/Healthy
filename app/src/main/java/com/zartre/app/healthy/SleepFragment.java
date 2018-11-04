@@ -28,6 +28,7 @@ public class SleepFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        sleepRecords.clear();
         Log.d("SLEEP", "Enter Sleep");
 
         db = new SleepDB(getContext());
