@@ -16,6 +16,7 @@ public class SleepFormFragment extends Fragment {
     private EditText _sleepStart;
     private EditText _sleepEnd;
     private Button addBtn;
+    private SleepDB db;
 
     @Nullable
     @Override
@@ -29,6 +30,7 @@ public class SleepFormFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         Log.d("SLEEPFORM", "Enter SleepForm");
 
+        db = new SleepDB(getContext());
         _date = getView().findViewById(R.id.sleep_form_input_date);
         _sleepStart = getView().findViewById(R.id.sleep_form_input_sleep_start);
         _sleepEnd = getView().findViewById(R.id.sleep_form_input_sleep_end);
@@ -40,6 +42,9 @@ public class SleepFormFragment extends Fragment {
                 String date = _date.getText().toString();
                 String sleepStart = _sleepStart.getText().toString();
                 String sleepEnd = _sleepEnd.getText().toString();
+                Log.d("SLEEPFORM", "Inserting " + date + " " + sleepStart + " " + sleepEnd);
+                db.createRecord(date, sleepStart, sleepEnd);
+                Log.d("SLEEPFORM", "Inserted");
             }
         });
     }

@@ -13,10 +13,10 @@ public class SleepDBHelper extends SQLiteOpenHelper {
     static final String COL_SLEEP_START = "sleep_start";
     static final String COL_SLEEP_END = "sleep_end";
     static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + "(" +
-            COL_ID + "INTEGER PRIMARY KEY AUTOINCREMENT, " +
-            COL_DATE + "TEXT NOT NULL, " +
-            COL_SLEEP_START + "TEXT NOT NULL, " +
-            COL_SLEEP_END + "TEXT NOT NULL);";
+            COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            COL_DATE + " TEXT NOT NULL, " +
+            COL_SLEEP_START + " TEXT NOT NULL, " +
+            COL_SLEEP_END + " TEXT NOT NULL);";
 
     public SleepDBHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
