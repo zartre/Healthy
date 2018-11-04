@@ -33,8 +33,14 @@ public class SleepFragment extends Fragment {
 
         db = new SleepDB(getContext());
         Cursor records = db.getRecords();
+        /*if (records != null) {
+            // this is supposed to add the first row of the query to sleepRecords
+            SleepRecord s = new SleepRecord(records.getPosition(), records.getString(0), records.getString(1), records.getString(2));
+            sleepRecords.add(s);
+        }*/
         while (records.moveToNext()) {
-            SleepRecord s = new SleepRecord(records.getString(0), records.getString(1), records.getString(2));
+            // because this one skips the first row
+            SleepRecord s = new SleepRecord(records.getPosition(), records.getString(0), records.getString(1), records.getString(2));
             sleepRecords.add(s);
         }
         records.close();

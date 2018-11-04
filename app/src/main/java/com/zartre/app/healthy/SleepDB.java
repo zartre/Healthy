@@ -28,4 +28,12 @@ public class SleepDB {
         if (cursor != null) cursor.moveToFirst();
         return cursor;
     }
+
+    public long updateRecord(String rowId, String date, String sleepStart, String sleepEnd) {
+        ContentValues values = new ContentValues();
+        values.put(sleepDBHelper.COL_DATE, date);
+        values.put(sleepDBHelper.COL_SLEEP_START, sleepStart);
+        values.put(sleepDBHelper.COL_SLEEP_END, sleepEnd);
+        return db.update(sleepDBHelper.TABLE_NAME, values, "id=" + rowId, null);
+    }
 }

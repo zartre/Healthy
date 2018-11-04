@@ -19,6 +19,7 @@ public class SleepFormFragment extends Fragment {
     private Button addBtn;
     private TextView title;
     private SleepDB db;
+    private String oldDate, oldSleepStart, oldSleepEnd, rowId;
 
     @Nullable
     @Override
@@ -31,7 +32,7 @@ public class SleepFormFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         Log.d("SLEEPFORM", "Enter SleepForm");
-        Bundle sleepBundle = getArguments();
+        final Bundle sleepBundle = getArguments();
 
         db = new SleepDB(getContext());
         _date = getView().findViewById(R.id.sleep_form_input_date);
@@ -41,9 +42,11 @@ public class SleepFormFragment extends Fragment {
         title = getView().findViewById(R.id.sleep_form_title);
 
         if (sleepBundle != null) {
-            String oldDate = sleepBundle.getString("date");
-            String oldSleepStart = sleepBundle.getString("sleepStart");
-            String oldSleepEnd = sleepBundle.getString("sleepEnd");
+            oldDate = sleepBundle.getString("date");
+            oldSleepStart = sleepBundle.getString("sleepStart");
+            oldSleepEnd = sleepBundle.getString("sleepEnd");
+            // rowId = Integer.toString(sleepBundle.getInt("id"));
+            Log.d("SLEEPFORM", "Bundle with rowId " + rowId);
             _date.setText(oldDate);
             _sleepStart.setText(oldSleepStart);
             _sleepEnd.setText(oldSleepEnd);
@@ -57,9 +60,15 @@ public class SleepFormFragment extends Fragment {
                 String date = _date.getText().toString();
                 String sleepStart = _sleepStart.getText().toString();
                 String sleepEnd = _sleepEnd.getText().toString();
-                Log.d("SLEEPFORM", "Inserting " + date + " " + sleepStart + " " + sleepEnd);
-                db.createRecord(date, sleepStart, sleepEnd);
-                Log.d("SLEEPFORM", "Inserted");
+                if (sleepBundle == null) {
+                    Log.d("SLEEPFORM", "Inserting: " + date + " " + sleepStart + " " + sleepEnd);
+                    db.createRecord(date, sleepStart, sleepEnd);
+                    Log.d("SLEEPFORM", "Inserted");
+                } else {
+                    Log.d("SLEEPFORM", "Updating: " + rowId + " " + date + " " + sleepStart + " " + sleepEnd);
+                    db.updateRecord(rowId + 1, date, sleepStart, sleepEnd);
+                    Log.d("SLEEPFORM", "Updated");
+                }
                 getFragmentManager()
                         .beginTransaction()
                         .replace(R.id.main_view, new SleepFragment())

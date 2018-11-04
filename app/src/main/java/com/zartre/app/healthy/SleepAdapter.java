@@ -28,7 +28,7 @@ public class SleepAdapter extends ArrayAdapter<SleepRecord> {
 
     @NonNull
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull final ViewGroup parent) {
+    public View getView(final int position, @Nullable View convertView, @NonNull final ViewGroup parent) {
         View sleepCard = LayoutInflater.from(context).inflate(R.layout.fragment_sleep_card, parent, false);
         TextView date = sleepCard.findViewById(R.id.sleep_card_date);
         TextView period = sleepCard.findViewById(R.id.sleep_card_period);
@@ -42,6 +42,8 @@ public class SleepAdapter extends ArrayAdapter<SleepRecord> {
             @Override
             public void onClick(View view) {
                 Bundle sleepBundle = new Bundle();
+                // is this the correct way to get the actual row id?
+                // sleepBundle.putInt("id", row.getRowId());
                 sleepBundle.putString("date", row.getDate());
                 sleepBundle.putString("sleepStart", row.getSleepStart());
                 sleepBundle.putString("sleepEnd", row.getSleepEnd());
