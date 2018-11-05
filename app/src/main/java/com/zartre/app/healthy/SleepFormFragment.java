@@ -66,7 +66,7 @@ public class SleepFormFragment extends Fragment {
                     Log.d("SLEEPFORM", "Inserted");
                 } else {
                     Log.d("SLEEPFORM", "Updating: " + rowId + " " + date + " " + sleepStart + " " + sleepEnd);
-                    db.updateRecord(rowId + 1, date, sleepStart, sleepEnd);
+                    db.updateRecord(Integer.parseInt(rowId) + 1, date, sleepStart, sleepEnd);
                     Log.d("SLEEPFORM", "Updated");
                 }
                 getFragmentManager()

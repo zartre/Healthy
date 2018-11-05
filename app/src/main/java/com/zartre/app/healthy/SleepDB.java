@@ -29,11 +29,12 @@ public class SleepDB {
         return cursor;
     }
 
-    public long updateRecord(String rowId, String date, String sleepStart, String sleepEnd) {
+    public long updateRecord(int rowId, String date, String sleepStart, String sleepEnd) {
         ContentValues values = new ContentValues();
         values.put(sleepDBHelper.COL_DATE, date);
         values.put(sleepDBHelper.COL_SLEEP_START, sleepStart);
         values.put(sleepDBHelper.COL_SLEEP_END, sleepEnd);
-        return db.update(sleepDBHelper.TABLE_NAME, values, "id=" + rowId, null);
+        String whereClause = sleepDBHelper.COL_ID + "=" + rowId;
+        return db.update(sleepDBHelper.TABLE_NAME, values, whereClause, null);
     }
 }

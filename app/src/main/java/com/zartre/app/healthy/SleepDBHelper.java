@@ -6,9 +6,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class SleepDBHelper extends SQLiteOpenHelper {
     static final String DB_NAME = "healthy.db";
-    static final int DB_VERSION = 1;
+    static final int DB_VERSION = 2;
     static final String TABLE_NAME = "sleep";
-    static final String COL_ID = "id";
+    static final String COL_ID = "_id";
     static final String COL_DATE = "date";
     static final String COL_SLEEP_START = "sleep_start";
     static final String COL_SLEEP_END = "sleep_end";
