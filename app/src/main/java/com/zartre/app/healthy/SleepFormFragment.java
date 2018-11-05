@@ -45,7 +45,7 @@ public class SleepFormFragment extends Fragment {
             oldDate = sleepBundle.getString("date");
             oldSleepStart = sleepBundle.getString("sleepStart");
             oldSleepEnd = sleepBundle.getString("sleepEnd");
-            // rowId = Integer.toString(sleepBundle.getInt("id"));
+             rowId = Integer.toString(sleepBundle.getInt("id"));
             Log.d("SLEEPFORM", "Bundle with rowId " + rowId);
             _date.setText(oldDate);
             _sleepStart.setText(oldSleepStart);

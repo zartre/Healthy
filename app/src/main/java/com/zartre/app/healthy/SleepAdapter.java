@@ -43,7 +43,7 @@ public class SleepAdapter extends ArrayAdapter<SleepRecord> {
             public void onClick(View view) {
                 Bundle sleepBundle = new Bundle();
                 // is this the correct way to get the actual row id?
-                // sleepBundle.putInt("id", row.getRowId());
+                sleepBundle.putInt("id", row.getRowId());
                 sleepBundle.putString("date", row.getDate());
                 sleepBundle.putString("sleepStart", row.getSleepStart());
                 sleepBundle.putString("sleepEnd", row.getSleepEnd());
