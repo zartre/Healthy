@@ -1,16 +1,19 @@
 package com.zartre.app.healthy;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toolbar;
+import com.zartre.app.healthy.adapter.PostAdapter;
 import com.zartre.app.healthy.data.Post;
 import com.zartre.app.healthy.task.GetRestIntentService;
 import okhttp3.OkHttpClient;
@@ -24,13 +27,16 @@ import java.util.List;
 public class PostFragment extends Fragment {
     private static final String TAG = "PostFragment";
     private final String POSTS_URL = "https://jsonplaceholder.typicode.com/posts";
+    private static Context context;
 
     private OkHttpClient okHttpClient = new OkHttpClient();
 
     private static List<Post> posts = new ArrayList<>();
 
     private Toolbar _toolbar;
-    private RecyclerView _postList;
+    private static RecyclerView _postRecyclerView;
+    private static RecyclerView.LayoutManager recyclerLayoutManager;
+    private static RecyclerView.Adapter recyclerAdapter;
 
     @Nullable
     @Override
@@ -43,9 +49,11 @@ public class PostFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         _toolbar = getView().findViewById(R.id.posts_toolbar);
-        _postList = getView().findViewById(R.id.posts_list);
+        _postRecyclerView = getView().findViewById(R.id.posts_list);
 
         createToolbar();
+
+        context = getContext();
 
         // fetch posts
         final Intent fetchIntent = new Intent(getActivity(), GetRestIntentService.class);
@@ -66,21 +74,31 @@ public class PostFragment extends Fragment {
 
     public static void onReceiveResult(String JsonResult) {
         try {
-            final JSONArray jsonArray = new JSONArray(JsonResult);
-            final int ARR_LENGTH = jsonArray.length();
+            final JSONArray JSON_ARRAY = new JSONArray(JsonResult);
+            final int ARR_LENGTH = JSON_ARRAY.length();
             for (int i = 0; i < ARR_LENGTH; i++) {
-                final JSONObject postJsonObject = jsonArray.getJSONObject(i);
-                Post post = new Post(
-                        postJsonObject.getInt("id"),
-                        postJsonObject.getString("title"),
-                        postJsonObject.getString("body")
+                final JSONObject POST_JSON_OBJ = JSON_ARRAY.getJSONObject(i);
+                final Post POST = new Post(
+                        POST_JSON_OBJ.getInt("id"),
+                        POST_JSON_OBJ.getString("title"),
+                        POST_JSON_OBJ.getString("body")
                 );
-                posts.add(post);
+                posts.add(POST);
             }
+            updateView();
         } catch (JSONException e) {
             Log.d(TAG, "onReceiveResult: " + e.getLocalizedMessage());
         }
     }
 
-    private void updateView() {}
+    private static void updateView() {
+        try {
+            recyclerLayoutManager = new LinearLayoutManager(context);
+            _postRecyclerView.setLayoutManager(recyclerLayoutManager);
+            recyclerAdapter = new PostAdapter(posts);
+            _postRecyclerView.setAdapter(recyclerAdapter);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
