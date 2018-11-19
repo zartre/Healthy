@@ -28,7 +28,7 @@ import java.util.List;
 
 public class PostFragment extends Fragment {
     public static final String TAG = "PostFragment";
-    public static final String ACTION_POSTS_FETCHED = "com.zartre.com.intent.POSTS_FETCHED";
+    public static final String ACTION_POSTS_FETCHED = "com.zartre.app.intent.POSTS_FETCHED";
     private final String POSTS_URL = "https://jsonplaceholder.typicode.com/posts";
 
     private final Handler updateViewHandler = new Handler();

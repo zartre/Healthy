@@ -33,7 +33,7 @@ public class GetRestIntentService extends IntentService {
             Request request = new Request.Builder().url(url).build();
             Response response = okHttpClient.newCall(request).execute();
             String result = response.body() != null ? response.body().string() : "";
-            Log.d(TAG, "onHandleIntent: succeed");
+            Log.d(TAG, "onHandleIntent: succeed: " + action);
 
             Intent broadcastIntent = new Intent(action);
             broadcastIntent.addCategory(Intent.CATEGORY_DEFAULT);

@@ -1,11 +1,17 @@
 package com.zartre.app.healthy.adapter;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import com.zartre.app.healthy.CommentFragment;
 import com.zartre.app.healthy.R;
 import com.zartre.app.healthy.data.Post;
 
@@ -20,10 +26,26 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
     @NonNull
     @Override
-    public PostViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
+    public PostViewHolder onCreateViewHolder(@NonNull final ViewGroup parent, final int i) {
         final View _postItem = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.fragment_post_card, parent, false);
         final PostViewHolder postViewHolder = new PostViewHolder(_postItem);
+        _postItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("PostAdapter", "onClick: " + posts.get(i).getId());
+                final Fragment fragment = new CommentFragment();
+                final Bundle bundle = new Bundle();
+                bundle.putInt("postId", posts.get(i).getId());
+                fragment.setArguments(bundle);
+
+                FragmentManager fm = ((AppCompatActivity) parent.getContext()).getSupportFragmentManager();
+                fm.beginTransaction()
+                        .replace(R.id.main_view, fragment)
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
         return postViewHolder;
     }
 
