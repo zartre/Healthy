@@ -20,4 +20,6 @@
     <string name="sleep_end">Wake up time</string>
     <string name="missing_usr_pwd">Missing username or password</string>
     <string name="incorrect_usr_pwd">Incorrect username or password</string>
+
+    <string name="post_card_title">%d : %s</string>
 </resources>
