@@ -14,6 +14,7 @@ import java.io.IOException;
 public class GetRestIntentService extends IntentService {
     public static final String TAG = "GetRestIntentService";
     public static final String PARAM_IN_URL = "url";
+    public static final String PARAM_IN_ACTION = "action";
     public static final String PARAM_OUT_BODY = "body";
 
     private OkHttpClient okHttpClient = new OkHttpClient();
@@ -26,6 +27,7 @@ public class GetRestIntentService extends IntentService {
     protected void onHandleIntent(@Nullable Intent intent) {
         Log.d(TAG, "onHandleIntent");
         final String url = intent.getStringExtra(PARAM_IN_URL);
+        final String action = intent.getStringExtra(PARAM_IN_ACTION);
         Log.d(TAG, "onHandleIntent: " + url);
         try {
             Request request = new Request.Builder().url(url).build();
@@ -33,7 +35,7 @@ public class GetRestIntentService extends IntentService {
             String result = response.body() != null ? response.body().string() : "";
             Log.d(TAG, "onHandleIntent: succeed");
 
-            Intent broadcastIntent = new Intent(PostFragment.ACTION_POSTS_FETCHED);
+            Intent broadcastIntent = new Intent(action);
             broadcastIntent.addCategory(Intent.CATEGORY_DEFAULT);
             broadcastIntent.putExtra(PARAM_OUT_BODY, result);
             sendBroadcast(broadcastIntent);

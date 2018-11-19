@@ -47,6 +47,7 @@ public class PostFragment extends Fragment {
         // fetch posts
         final Intent fetchIntent = new Intent(getActivity(), GetRestIntentService.class);
         fetchIntent.putExtra(GetRestIntentService.PARAM_IN_URL, POSTS_URL);
+        fetchIntent.putExtra(GetRestIntentService.PARAM_IN_ACTION, ACTION_POSTS_FETCHED);
         getActivity().startService(fetchIntent);
     }
 
