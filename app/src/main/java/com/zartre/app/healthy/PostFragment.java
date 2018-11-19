@@ -3,6 +3,7 @@ package com.zartre.app.healthy;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -16,7 +17,6 @@ import android.widget.Toolbar;
 import com.zartre.app.healthy.adapter.PostAdapter;
 import com.zartre.app.healthy.data.Post;
 import com.zartre.app.healthy.task.GetRestIntentService;
-import okhttp3.OkHttpClient;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,8 +28,7 @@ public class PostFragment extends Fragment {
     private static final String TAG = "PostFragment";
     private final String POSTS_URL = "https://jsonplaceholder.typicode.com/posts";
     private static Context context;
-
-    private OkHttpClient okHttpClient = new OkHttpClient();
+    private static final Handler updateViewHandler = new Handler();
 
     private static List<Post> posts = new ArrayList<>();
 
@@ -37,6 +36,16 @@ public class PostFragment extends Fragment {
     private static RecyclerView _postRecyclerView;
     private static RecyclerView.LayoutManager recyclerLayoutManager;
     private static RecyclerView.Adapter recyclerAdapter;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        // fetch posts
+        final Intent fetchIntent = new Intent(getActivity(), GetRestIntentService.class);
+        fetchIntent.putExtra(GetRestIntentService.PARAM_IN_URL, POSTS_URL);
+        getActivity().startService(fetchIntent);
+    }
 
     @Nullable
     @Override
@@ -54,11 +63,6 @@ public class PostFragment extends Fragment {
         createToolbar();
 
         context = getContext();
-
-        // fetch posts
-        final Intent fetchIntent = new Intent(getActivity(), GetRestIntentService.class);
-        fetchIntent.putExtra(GetRestIntentService.PARAM_IN_URL, POSTS_URL);
-        getActivity().startService(fetchIntent);
     }
 
     private void createToolbar() {
@@ -74,8 +78,10 @@ public class PostFragment extends Fragment {
 
     public static void onReceiveResult(String JsonResult) {
         try {
+            // convert JSON string to JSON array
             final JSONArray JSON_ARRAY = new JSONArray(JsonResult);
             final int ARR_LENGTH = JSON_ARRAY.length();
+            // convert each array item to Post object
             for (int i = 0; i < ARR_LENGTH; i++) {
                 final JSONObject POST_JSON_OBJ = JSON_ARRAY.getJSONObject(i);
                 final Post POST = new Post(
@@ -85,7 +91,7 @@ public class PostFragment extends Fragment {
                 );
                 posts.add(POST);
             }
-            updateView();
+            updateViewHandler.post(updateViewRunnable);
         } catch (JSONException e) {
             Log.d(TAG, "onReceiveResult: " + e.getLocalizedMessage());
         }
@@ -101,4 +107,13 @@ public class PostFragment extends Fragment {
             e.printStackTrace();
         }
     }
+
+    private static final Runnable updateViewRunnable = new Runnable() {
+        @Override
+        public void run() {
+            // update the UI through a Runnable to prevent
+            // ViewRootImpl$CalledFromWrongThreadException
+            updateView();
+        }
+    };
 }
