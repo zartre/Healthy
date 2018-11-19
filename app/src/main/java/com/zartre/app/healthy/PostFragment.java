@@ -1,7 +1,9 @@
 package com.zartre.app.healthy;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -25,17 +27,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PostFragment extends Fragment {
-    private static final String TAG = "PostFragment";
+    public static final String TAG = "PostFragment";
+    public static final String ACTION_POSTS_FETCHED = "com.zartre.com.intent.POSTS_FETCHED";
     private final String POSTS_URL = "https://jsonplaceholder.typicode.com/posts";
-    private static Context context;
-    private static final Handler updateViewHandler = new Handler();
 
+    private final Handler updateViewHandler = new Handler();
+    private BroadcastReceiver receiver;
     private static List<Post> posts = new ArrayList<>();
 
     private Toolbar _toolbar;
-    private static RecyclerView _postRecyclerView;
-    private static RecyclerView.LayoutManager recyclerLayoutManager;
-    private static RecyclerView.Adapter recyclerAdapter;
+    private RecyclerView _postRecyclerView;
+    private RecyclerView.LayoutManager recyclerLayoutManager;
+    private RecyclerView.Adapter recyclerAdapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -61,8 +64,29 @@ public class PostFragment extends Fragment {
         _postRecyclerView = getView().findViewById(R.id.posts_list);
 
         createToolbar();
+    }
 
-        context = getContext();
+    @Override
+    public void onResume() {
+        super.onResume();
+        final IntentFilter FILTER = new IntentFilter();
+        FILTER.addAction(ACTION_POSTS_FETCHED);
+        FILTER.addCategory(Intent.CATEGORY_DEFAULT);
+        receiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                Log.d(TAG, "onReceive: intent received");
+                final String RESULT = intent.getStringExtra(GetRestIntentService.PARAM_OUT_BODY);
+                onReceiveResult(RESULT);
+            }
+        };
+        getActivity().registerReceiver(receiver, FILTER);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        getActivity().unregisterReceiver(receiver);
     }
 
     private void createToolbar() {
@@ -76,7 +100,7 @@ public class PostFragment extends Fragment {
         });
     }
 
-    public static void onReceiveResult(String JsonResult) {
+    public void onReceiveResult(String JsonResult) {
         try {
             // convert JSON string to JSON array
             final JSONArray JSON_ARRAY = new JSONArray(JsonResult);
@@ -97,9 +121,9 @@ public class PostFragment extends Fragment {
         }
     }
 
-    private static void updateView() {
+    private void updateView() {
         try {
-            recyclerLayoutManager = new LinearLayoutManager(context);
+            recyclerLayoutManager = new LinearLayoutManager(getContext());
             _postRecyclerView.setLayoutManager(recyclerLayoutManager);
             recyclerAdapter = new PostAdapter(posts);
             _postRecyclerView.setAdapter(recyclerAdapter);
@@ -108,7 +132,7 @@ public class PostFragment extends Fragment {
         }
     }
 
-    private static final Runnable updateViewRunnable = new Runnable() {
+    private final Runnable updateViewRunnable = new Runnable() {
         @Override
         public void run() {
             // update the UI through a Runnable to prevent

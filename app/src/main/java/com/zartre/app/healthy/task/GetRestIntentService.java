@@ -14,6 +14,7 @@ import java.io.IOException;
 public class GetRestIntentService extends IntentService {
     public static final String TAG = "GetRestIntentService";
     public static final String PARAM_IN_URL = "url";
+    public static final String PARAM_OUT_BODY = "body";
 
     private OkHttpClient okHttpClient = new OkHttpClient();
 
@@ -31,7 +32,11 @@ public class GetRestIntentService extends IntentService {
             Response response = okHttpClient.newCall(request).execute();
             String result = response.body() != null ? response.body().string() : "";
             Log.d(TAG, "onHandleIntent: succeed");
-            PostFragment.onReceiveResult(result);
+
+            Intent broadcastIntent = new Intent(PostFragment.ACTION_POSTS_FETCHED);
+            broadcastIntent.addCategory(Intent.CATEGORY_DEFAULT);
+            broadcastIntent.putExtra(PARAM_OUT_BODY, result);
+            sendBroadcast(broadcastIntent);
         } catch (IOException e) {
             Log.d(TAG, "onHandleIntent: " + e.getLocalizedMessage());
         }
