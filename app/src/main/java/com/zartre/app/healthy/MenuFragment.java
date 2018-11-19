@@ -27,6 +27,7 @@ public class MenuFragment extends Fragment {
         _menu.add("BMI");
         _menu.add("Weight");
         _menu.add("Sleep");
+        _menu.add("Posts");
         _menu.add("Setup");
         _menu.add("Sign Out");
 
@@ -68,6 +69,13 @@ public class MenuFragment extends Fragment {
                     getActivity().getSupportFragmentManager()
                             .beginTransaction()
                             .replace(R.id.main_view, new SleepFragment())
+                            .addToBackStack(null)
+                            .commit();
+                } else if (selectedMenu.equalsIgnoreCase("posts")) {
+                    Log.d("MENU", "Chosen " + selectedMenu);
+                    getActivity().getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.main_view, new PostFragment())
                             .addToBackStack(null)
                             .commit();
                 }
