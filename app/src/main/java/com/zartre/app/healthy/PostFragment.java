@@ -40,20 +40,15 @@ public class PostFragment extends Fragment {
     private RecyclerView.LayoutManager recyclerLayoutManager;
     private RecyclerView.Adapter recyclerAdapter;
 
+    @Nullable
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         // fetch posts
         final Intent fetchIntent = new Intent(getActivity(), GetRestIntentService.class);
         fetchIntent.putExtra(GetRestIntentService.PARAM_IN_URL, POSTS_URL);
         fetchIntent.putExtra(GetRestIntentService.PARAM_IN_ACTION, ACTION_POSTS_FETCHED);
         getActivity().startService(fetchIntent);
-    }
-
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        
         return inflater.inflate(R.layout.fragment_posts, container, false);
     }
 
