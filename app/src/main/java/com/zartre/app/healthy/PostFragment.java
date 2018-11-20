@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toolbar;
 import com.zartre.app.healthy.adapter.PostAdapter;
 import com.zartre.app.healthy.data.Post;
@@ -36,6 +37,7 @@ public class PostFragment extends Fragment {
     private static final List<Post> POSTS = new ArrayList<>();
 
     private Toolbar _toolbar;
+    private ProgressBar _loading;
     private RecyclerView _postRecyclerView;
     private RecyclerView.LayoutManager recyclerLayoutManager;
     private RecyclerView.Adapter recyclerAdapter;
@@ -59,6 +61,7 @@ public class PostFragment extends Fragment {
         POSTS.clear();
 
         _toolbar = getView().findViewById(R.id.posts_toolbar);
+        _loading = getView().findViewById(R.id.posts_loading);
         _postRecyclerView = getView().findViewById(R.id.posts_list);
 
         createToolbar();
@@ -126,6 +129,7 @@ public class PostFragment extends Fragment {
             _postRecyclerView.setLayoutManager(recyclerLayoutManager);
             recyclerAdapter = new PostAdapter(POSTS);
             _postRecyclerView.setAdapter(recyclerAdapter);
+            _loading.setVisibility(View.GONE);
         } catch (Exception e) {
             e.printStackTrace();
         }
