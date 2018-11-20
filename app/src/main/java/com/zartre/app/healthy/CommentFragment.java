@@ -15,9 +15,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toolbar;
+import com.zartre.app.healthy.data.Comment;
 import com.zartre.app.healthy.task.GetRestIntentService;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class CommentFragment extends Fragment {
     public static final String TAG = "CommentFragment";
@@ -28,7 +33,8 @@ public class CommentFragment extends Fragment {
     private int postId;
 
     private final Handler handler = new Handler();
-    private BroadcastReceiver postReceiver;
+    private BroadcastReceiver commentsReceiver;
+    private static final List<Comment> COMMENTS = new ArrayList<>();
 
     private Toolbar _toolbar;
     private RecyclerView _commentsRecyclerView;
@@ -38,10 +44,13 @@ public class CommentFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         postId = getArguments().getInt("postId");
-        Log.d(TAG, "onCreate: getting post with ID " + postId);
+        Log.d(TAG, "onCreate: postId = " + postId);
 
         final String POST_COMMENTS_URL = POST_URL + "/" + postId + POST_COMMENTS_PATH;
+        Log.d(TAG, "onCreate: constructed URL " + POST_COMMENTS_URL);
+
         final Intent fetchPostIntent = new Intent(getActivity(), GetRestIntentService.class);
         fetchPostIntent.putExtra(GetRestIntentService.PARAM_IN_ACTION, ACTION_COMMENTS_FETCHED);
         fetchPostIntent.putExtra(GetRestIntentService.PARAM_IN_URL, POST_COMMENTS_URL);
@@ -70,7 +79,7 @@ public class CommentFragment extends Fragment {
         final IntentFilter POST_FILTER = new IntentFilter();
         POST_FILTER.addAction(ACTION_COMMENTS_FETCHED);
         POST_FILTER.addCategory(Intent.CATEGORY_DEFAULT);
-        postReceiver = new BroadcastReceiver() {
+        commentsReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
                 Log.d(TAG, "onReceive: post fetched");
@@ -78,13 +87,32 @@ public class CommentFragment extends Fragment {
                 onReceivePost(RESULT);
             }
         };
-        getActivity().registerReceiver(postReceiver, POST_FILTER);
+        getActivity().registerReceiver(commentsReceiver, POST_FILTER);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        getActivity().unregisterReceiver(commentsReceiver);
     }
 
     private void onReceivePost(String JsonResult) {
         try {
-            final JSONObject POST = new JSONObject(JsonResult);
-            final int POST_ID = POST.getInt("id");
+            // convert JSON string to JSON array
+            final JSONArray JSON_ARRAY = new JSONArray(JsonResult);
+            final int ARR_LENGTH = JSON_ARRAY.length();
+            // convert each array item to Comment object
+            for (int i = 0; i < ARR_LENGTH; i++) {
+                final JSONObject COMMENT_JSON_OBJ = JSON_ARRAY.getJSONObject(i);
+                final Comment COMMENT = new Comment(
+                        COMMENT_JSON_OBJ.getInt("id"),
+                        COMMENT_JSON_OBJ.getInt("postId"),
+                        COMMENT_JSON_OBJ.getString("name"),
+                        COMMENT_JSON_OBJ.getString("email"),
+                        COMMENT_JSON_OBJ.getString("body")
+                );
+                COMMENTS.add(COMMENT);
+            }
         } catch (JSONException je) {
             Log.d(TAG, "onReceivePost: " + je.getLocalizedMessage());
         } catch (Exception e) {
