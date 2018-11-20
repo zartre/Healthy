@@ -40,7 +40,7 @@ public class CommentFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         postId = getArguments().getInt("postId");
-
+        Log.d(TAG, "onCreate: getting post with ID " + postId);
         final Intent fetchPostIntent = new Intent(getActivity(), GetRestIntentService.class);
         fetchPostIntent.putExtra(GetRestIntentService.PARAM_IN_ACTION, ACTION_POST_FETCHED);
         fetchPostIntent.putExtra(GetRestIntentService.PARAM_IN_URL, POST_URL + "/" + postId);
@@ -61,6 +61,9 @@ public class CommentFragment extends Fragment {
         _postBody = getView().findViewById(R.id.post_comments_post_body);
         _postAuthor = getView().findViewById(R.id.post_comments_post_author);
         _postEmail = getView().findViewById(R.id.post_comments_post_email);
+        _toolbar = getView().findViewById(R.id.post_comments_toolbar);
+
+        createToolbar();
     }
 
     @Override
@@ -101,18 +104,26 @@ public class CommentFragment extends Fragment {
             final String POST_TITLE = POST.getString("title");
             final String POST_BODY = POST.getString("body");
             final String POST_USER_ID = POST.getString("userId");
-            final String TITLE_FORMAT = getString(R.string.post_card_title);
+            final String TITLE_FORMAT = "%d : %s";
             _postTitle.setText(String.format(TITLE_FORMAT, POST_ID, POST_TITLE));
             _postBody.setText(POST_BODY);
+            _toolbar.setTitle(POST_TITLE);
             completedElements++; // for use with progressBar
 
             // fetch author's info
-            final Intent fetchAuthorIntent = new Intent(getActivity(), GetRestIntentService.class);
-            fetchAuthorIntent.putExtra(GetRestIntentService.PARAM_IN_ACTION, ACTION_AUTHOR_FETCHED);
-            fetchAuthorIntent.putExtra(GetRestIntentService.PARAM_IN_URL, USER_URL + "/" + POST_USER_ID);
-            getActivity().startService(fetchAuthorIntent);
-        } catch (JSONException e) {
+            if (getActivity() != null) {
+                final Intent fetchAuthorIntent = new Intent(getActivity(), GetRestIntentService.class);
+                fetchAuthorIntent.putExtra(GetRestIntentService.PARAM_IN_ACTION, ACTION_AUTHOR_FETCHED);
+                fetchAuthorIntent.putExtra(GetRestIntentService.PARAM_IN_URL, USER_URL + "/" + POST_USER_ID);
+                getActivity().startService(fetchAuthorIntent);
+            } else {
+                Log.d(TAG, "onReceivePost: getActivity() is null. Aborting fetchAuthorIntent.");
+            }
+        } catch (JSONException je) {
+            Log.d(TAG, "onReceivePost: " + je.getLocalizedMessage());
+        } catch (Exception e) {
             Log.d(TAG, "onReceivePost: " + e.getLocalizedMessage());
+            e.printStackTrace();
         }
     }
 
@@ -124,8 +135,11 @@ public class CommentFragment extends Fragment {
             _postAuthor.setText(USER_NAME);
             _postEmail.setText(USER_EMAIL);
             completedElements++;
-        } catch (JSONException e) {
+        } catch (JSONException je) {
+            Log.d(TAG, "onReceiveAuthor: " + je.getLocalizedMessage());
+        } catch (Exception e) {
             Log.d(TAG, "onReceiveAuthor: " + e.getLocalizedMessage());
+            e.printStackTrace();
         }
     }
 
@@ -133,5 +147,15 @@ public class CommentFragment extends Fragment {
         if (completedElements >= ELEMENTS_TO_WAIT) {
             // hide progressBar and show content
         }
+    }
+
+    private void createToolbar() {
+        _toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
+        _toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().onBackPressed();
+            }
+        });
     }
 }
