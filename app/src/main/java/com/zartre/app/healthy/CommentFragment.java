@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toolbar;
 import com.zartre.app.healthy.adapter.CommentAdapter;
 import com.zartre.app.healthy.data.Comment;
@@ -39,6 +40,7 @@ public class CommentFragment extends Fragment {
     private static final List<Comment> COMMENTS = new ArrayList<>();
 
     private Toolbar _toolbar;
+    private ProgressBar _loading;
     private RecyclerView _commentsRecyclerView;
     private RecyclerView.LayoutManager recyclerLayoutManager;
     private RecyclerView.Adapter recyclerAdapter;
@@ -72,6 +74,7 @@ public class CommentFragment extends Fragment {
         COMMENTS.clear();
 
         _toolbar = getView().findViewById(R.id.post_comments_toolbar);
+        _loading = getView().findViewById(R.id.post_comments_loading);
         _commentsRecyclerView = getView().findViewById(R.id.post_comments_list);
 
         createToolbar();
@@ -144,6 +147,7 @@ public class CommentFragment extends Fragment {
             _commentsRecyclerView.setLayoutManager(recyclerLayoutManager);
             recyclerAdapter = new CommentAdapter(COMMENTS);
             _commentsRecyclerView.setAdapter(recyclerAdapter);
+            _loading.setVisibility(View.GONE);
         } catch (Exception e) {
             e.printStackTrace();
         }
