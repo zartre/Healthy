@@ -18,6 +18,7 @@ import com.zartre.app.healthy.data.Post;
 import java.util.List;
 
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder> {
+    public static final String TAG = "PostAdapter";
     private List<Post> posts;
 
     public PostAdapter(List<Post> posts) {
@@ -33,10 +34,13 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         _postItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("PostAdapter", "onClick: " + posts.get(i).getId());
+                final int pos = postViewHolder.getAdapterPosition();
+                Log.d(TAG, "onClick: index = " + pos);
+                Log.d(TAG, "onClick: post id = " + posts.get(pos).getId());
+
                 final Fragment fragment = new CommentFragment();
                 final Bundle bundle = new Bundle();
-                bundle.putInt("postId", posts.get(i).getId());
+                bundle.putInt("postId", posts.get(pos).getId());
                 fragment.setArguments(bundle);
 
                 FragmentManager fm = ((AppCompatActivity) parent.getContext()).getSupportFragmentManager();
@@ -50,9 +54,9 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     }
 
     @Override
-    public void onBindViewHolder(@NonNull PostViewHolder postViewHolder, int i) {
+    public void onBindViewHolder(@NonNull PostViewHolder postViewHolder, int position) {
         final String TITLE_FORMAT = "%d : %s";
-        final Post POST = posts.get(i);
+        final Post POST = posts.get(position);
         postViewHolder._title.setText(String.format(TITLE_FORMAT, POST.getId(), POST.getTitle()));
         postViewHolder._body.setText(POST.getBody());
     }

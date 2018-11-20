@@ -102,7 +102,8 @@ public class PostFragment extends Fragment {
             final JSONArray JSON_ARRAY = new JSONArray(JsonResult);
             final int ARR_LENGTH = JSON_ARRAY.length();
             // convert each array item to Post object
-            for (int i = 0; i < ARR_LENGTH; i++) {
+            // ARR_LENGTH - 1 because post id 101 on the server is incomplete
+            for (int i = 0; i < ARR_LENGTH - 1; i++) {
                 final JSONObject POST_JSON_OBJ = JSON_ARRAY.getJSONObject(i);
                 final Post POST = new Post(
                         POST_JSON_OBJ.getInt("id"),

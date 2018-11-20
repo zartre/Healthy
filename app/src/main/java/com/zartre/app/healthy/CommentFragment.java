@@ -69,6 +69,8 @@ public class CommentFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        COMMENTS.clear();
+
         _toolbar = getView().findViewById(R.id.post_comments_toolbar);
         _commentsRecyclerView = getView().findViewById(R.id.post_comments_list);
 
