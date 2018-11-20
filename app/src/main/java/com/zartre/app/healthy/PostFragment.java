@@ -48,7 +48,7 @@ public class PostFragment extends Fragment {
         fetchIntent.putExtra(GetRestIntentService.PARAM_IN_URL, POSTS_URL);
         fetchIntent.putExtra(GetRestIntentService.PARAM_IN_ACTION, ACTION_POSTS_FETCHED);
         getActivity().startService(fetchIntent);
-        
+
         return inflater.inflate(R.layout.fragment_posts, container, false);
     }
 
