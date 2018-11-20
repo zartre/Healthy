@@ -29,11 +29,11 @@ import java.util.List;
 public class PostFragment extends Fragment {
     public static final String TAG = "PostFragment";
     public static final String ACTION_POSTS_FETCHED = "com.zartre.app.intent.POSTS_FETCHED";
-    private final String POSTS_URL = "https://jsonplaceholder.typicode.com/posts";
+    private final String POSTS_URL = "https://jsonplaceholder.typicode.com/POSTS";
 
     private final Handler updateViewHandler = new Handler();
     private BroadcastReceiver receiver;
-    private static List<Post> posts = new ArrayList<>();
+    private static final List<Post> POSTS = new ArrayList<>();
 
     private Toolbar _toolbar;
     private RecyclerView _postRecyclerView;
@@ -43,7 +43,7 @@ public class PostFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        // fetch posts
+        // fetch POSTS
         final Intent fetchIntent = new Intent(getActivity(), GetRestIntentService.class);
         fetchIntent.putExtra(GetRestIntentService.PARAM_IN_URL, POSTS_URL);
         fetchIntent.putExtra(GetRestIntentService.PARAM_IN_ACTION, ACTION_POSTS_FETCHED);
@@ -55,6 +55,8 @@ public class PostFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        POSTS.clear();
 
         _toolbar = getView().findViewById(R.id.posts_toolbar);
         _postRecyclerView = getView().findViewById(R.id.posts_list);
@@ -110,7 +112,7 @@ public class PostFragment extends Fragment {
                         POST_JSON_OBJ.getString("title"),
                         POST_JSON_OBJ.getString("body")
                 );
-                posts.add(POST);
+                POSTS.add(POST);
             }
             updateViewHandler.post(updateViewRunnable);
         } catch (JSONException e) {
@@ -122,7 +124,7 @@ public class PostFragment extends Fragment {
         try {
             recyclerLayoutManager = new LinearLayoutManager(getContext());
             _postRecyclerView.setLayoutManager(recyclerLayoutManager);
-            recyclerAdapter = new PostAdapter(posts);
+            recyclerAdapter = new PostAdapter(POSTS);
             _postRecyclerView.setAdapter(recyclerAdapter);
         } catch (Exception e) {
             e.printStackTrace();
