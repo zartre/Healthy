@@ -22,11 +22,16 @@ import org.json.JSONObject;
 public class CommentFragment extends Fragment {
     public static final String TAG = "CommentFragment";
     public static final String ACTION_POST_FETCHED = "com.zartre.app.intent.POST_FETCHED";
+    public static final String ACTION_AUTHOR_FETCHED = "com.zartre.app.intent.AUTHOR_FETCHED";
+
     private final String POST_URL = "https://jsonplaceholder.typicode.com/posts";
+    private final String USER_URL = "https://jsonplaceholder.typicode.com/users";
     private int postId;
+    private final int ELEMENTS_TO_WAIT = 2; // onReceivePost and onReceiveAuthor
+    private int completedElements = 0;
 
     private final Handler handler = new Handler();
-    private BroadcastReceiver postReceiver;
+    private BroadcastReceiver postReceiver, authorReceiver;
 
     private TextView _postTitle, _postBody, _postAuthor, _postEmail;
     private Toolbar _toolbar;
@@ -54,6 +59,8 @@ public class CommentFragment extends Fragment {
 
         _postTitle = getView().findViewById(R.id.post_comments_post_title);
         _postBody = getView().findViewById(R.id.post_comments_post_body);
+        _postAuthor = getView().findViewById(R.id.post_comments_post_author);
+        _postEmail = getView().findViewById(R.id.post_comments_post_email);
     }
 
     @Override
@@ -72,6 +79,19 @@ public class CommentFragment extends Fragment {
             }
         };
         getActivity().registerReceiver(postReceiver, POST_FILTER);
+
+        final IntentFilter AUTHOR_FILTER = new IntentFilter();
+        AUTHOR_FILTER.addAction(ACTION_AUTHOR_FETCHED);
+        AUTHOR_FILTER.addCategory(Intent.CATEGORY_DEFAULT);
+        authorReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                Log.d(TAG, "onReceive: author fetched");
+                final String RESULT = intent.getStringExtra(GetRestIntentService.PARAM_OUT_BODY);
+                onReceiveAuthor(RESULT);
+            }
+        };
+        getActivity().registerReceiver(authorReceiver, AUTHOR_FILTER);
     }
 
     private void onReceivePost(String JsonResult) {
@@ -80,11 +100,38 @@ public class CommentFragment extends Fragment {
             final int POST_ID = POST.getInt("id");
             final String POST_TITLE = POST.getString("title");
             final String POST_BODY = POST.getString("body");
+            final String POST_USER_ID = POST.getString("userId");
             final String TITLE_FORMAT = getString(R.string.post_card_title);
             _postTitle.setText(String.format(TITLE_FORMAT, POST_ID, POST_TITLE));
             _postBody.setText(POST_BODY);
+            completedElements++; // for use with progressBar
+
+            // fetch author's info
+            final Intent fetchAuthorIntent = new Intent(getActivity(), GetRestIntentService.class);
+            fetchAuthorIntent.putExtra(GetRestIntentService.PARAM_IN_ACTION, ACTION_AUTHOR_FETCHED);
+            fetchAuthorIntent.putExtra(GetRestIntentService.PARAM_IN_URL, USER_URL + "/" + POST_USER_ID);
+            getActivity().startService(fetchAuthorIntent);
         } catch (JSONException e) {
             Log.d(TAG, "onReceivePost: " + e.getLocalizedMessage());
+        }
+    }
+
+    private void onReceiveAuthor(String JsonResult) {
+        try {
+            final JSONObject USER = new JSONObject(JsonResult);
+            final String USER_NAME = USER.getString("name");
+            final String USER_EMAIL = USER.getString("email");
+            _postAuthor.setText(USER_NAME);
+            _postEmail.setText(USER_EMAIL);
+            completedElements++;
+        } catch (JSONException e) {
+            Log.d(TAG, "onReceiveAuthor: " + e.getLocalizedMessage());
+        }
+    }
+
+    private void hideLoader() {
+        if (completedElements >= ELEMENTS_TO_WAIT) {
+            // hide progressBar and show content
         }
     }
 }
