@@ -9,12 +9,14 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toolbar;
+import com.zartre.app.healthy.adapter.CommentAdapter;
 import com.zartre.app.healthy.data.Comment;
 import com.zartre.app.healthy.task.GetRestIntentService;
 import org.json.JSONArray;
@@ -68,6 +70,7 @@ public class CommentFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         _toolbar = getView().findViewById(R.id.post_comments_toolbar);
+        _commentsRecyclerView = getView().findViewById(R.id.post_comments_list);
 
         createToolbar();
     }
@@ -112,6 +115,7 @@ public class CommentFragment extends Fragment {
                         COMMENT_JSON_OBJ.getString("body")
                 );
                 COMMENTS.add(COMMENT);
+                handler.post(updateViewRunnable);
             }
         } catch (JSONException je) {
             Log.d(TAG, "onReceivePost: " + je.getLocalizedMessage());
@@ -131,4 +135,22 @@ public class CommentFragment extends Fragment {
             }
         });
     }
+
+    private void updateView() {
+        try {
+            recyclerLayoutManager = new LinearLayoutManager(getContext());
+            _commentsRecyclerView.setLayoutManager(recyclerLayoutManager);
+            recyclerAdapter = new CommentAdapter(COMMENTS);
+            _commentsRecyclerView.setAdapter(recyclerAdapter);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private final Runnable updateViewRunnable = new Runnable() {
+        @Override
+        public void run() {
+            updateView();
+        }
+    };
 }
